@@ -1,15 +1,7 @@
 var dWidth = 100;
 var dHeight = 100;
 var field = [];
-var fieldCheck = function(y, x){
-	var res = []
-	for (var iter = field.length - 1; iter >= 0; iter--) {
-		if(field[iter].y == y && field[iter].x == x){
-			res.push(iter);
-		}
-	}
-	return res;
-}
+
 var randomCoords = function(max){
 	return Math.floor(Math.random() * max);
 }
@@ -25,27 +17,35 @@ var showElem = function(obj){
 var addFood = function(){
 	newFood = {};
 	newFood.cssClass = 'b-food';
-	newFood.y = randomCoords(50);
-	newFood.x = randomCoords(50);
+	newFood.y = randomCoords(100);
+	newFood.x = randomCoords(100);
 	showElem(newFood);
 }
 var addPoison = function(){
 	newPoison = {};
 	newPoison.cssClass = 'b-poison';
-	newPoison.y = randomCoords(50);
-	newPoison.x = randomCoords(50);
+	newPoison.y = randomCoords(90);
+	newPoison.x = randomCoords(90);
 	showElem(newPoison);
 }
 var initGame = function(){
-	for (var i = 0; i <= 2900; i++) {
+	for (var i = 0; i <= 900; i++) {
 		addFood();
 	};
-	for (var i = 0; i <= 10; i++) {
+	for (var i = 0; i <= 90; i++) {
 		addPoison();
 	};
 	step = setInterval(playerObj.todo, 100);
 }
-
+var fieldCheck = function(y, x){
+	var res = []
+	for (var iter = field.length - 1; iter >= 0; iter--) {
+		if(field[iter].y == y && field[iter].x == x){
+			res.push(iter);
+		}
+	}
+	return res;
+}
 var playerObj = {};
 playerObj.score = 0;
 playerObj.position = {};
@@ -91,7 +91,7 @@ playerObj.collision = function(){
 playerObj.eat = function(fieldItemNumber){
 	//document.getElementById('display').removeChild(field[fieldItemNumber].domLink);
 	field[fieldItemNumber].domLink.style.background = 'yellow';
-	field.splice(fieldItemNumber, 1);
+	//field.splice(fieldItemNumber, 1);
 	playerObj.onEat();
 	playerObj.score++;
 }
