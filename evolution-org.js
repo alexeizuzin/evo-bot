@@ -46,6 +46,69 @@ var fieldCheck = function(y, x){
 	}
 	return res;
 }
+
+function Ameba(id, top, left){
+	this.id = id;
+	this.score = 0;
+	this.position = {
+		top: top || 50,
+		left: left || 50
+	};
+	this.onEat = function(){
+
+	}
+	this.todo = function(){
+		this.move();
+		this.collision();
+	}
+}
+
+
+
+Ameba.prototype.show = function(){
+	document.getElementById(this.id).style.top = this.position.top + '%';
+	document.getElementById(this.id).style.left = this.position.left + '%';
+}
+
+Ameba.prototype.sensePoison = function(y, x){ 
+	var foundFoodArr = fieldCheck(y, x); //////////
+	if(foundFoodArr.length){
+		for (var foodNum = foundFoodArr.length - 1; foodNum >= 0; foodNum--) {
+			var i = foundFoodArr[foodNum];
+			if(field[i].cssClass == 'b-poison'){ /////////
+				return true;
+			}
+		}
+	}
+	return false;
+}
+Ameba.prototype.collision = function(){
+	var foundFoodArr = fieldCheck(this.position.top, this.position.left); ///////
+	if(foundFoodArr.length){
+		for (var foodNum = foundFoodArr.length - 1; foodNum >= 0; foodNum--) {
+			var i = foundFoodArr[foodNum];
+			if(field[i].cssClass == 'b-food'){//////
+				this.eat(i);
+			}
+			if(field[i].cssClass == 'b-poison'){///////
+				this.die();
+			}
+		}
+	}
+}
+Ameba.prototype.eat = function(fieldItemNumber){
+	//document.getElementById('display').removeChild(field[fieldItemNumber].domLink);
+	field[fieldItemNumber].domLink.style.background = 'yellow';  ////////
+	//field.splice(fieldItemNumber, 1);
+	this.onEat();
+	this.score++;
+}
+Ameba.prototype.die = function(){
+	clearInterval(step); //////////
+}
+
+
+
 var playerObj = {};
 playerObj.score = 0;
 playerObj.position = {};
